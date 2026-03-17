@@ -2,11 +2,19 @@ import os
 
 import httpx
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 MYSHOWS_AUTH_URL = os.getenv("MYSHOWS_AUTH_URL", "https://myshows.me/api/session")
 
 app = FastAPI(title="MyShows Auth Proxy")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["POST"],
+    allow_headers=["*"],
+)
 
 
 class AuthRequest(BaseModel):
