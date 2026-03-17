@@ -1,0 +1,8 @@
+services:
+  myshows-proxy:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MYSHOWS_AUTH_URL=https://myshows.me/api/session
