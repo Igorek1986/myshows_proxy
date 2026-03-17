@@ -91,8 +91,13 @@ setup_nginx() {
     [ -L /etc/nginx/sites-enabled/default ] && rm /etc/nginx/sites-enabled/default && warn "Удалён default сайт nginx"
 
     nginx -t || error "Ошибка в конфиге nginx"
-    systemctl reload nginx
-    info "Nginx перезагружен"
+    if systemctl is-active --quiet nginx; then
+        systemctl reload nginx
+        info "Nginx перезагружен"
+    else
+        systemctl start nginx
+        info "Nginx запущен"
+    fi
 }
 
 setup_ssl() {
